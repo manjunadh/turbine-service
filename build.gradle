@@ -1,0 +1,68 @@
+buildscript {
+    ext {
+		springBootVersion = '1.5.1.RELEASE'
+		springBootVersion = '1.5.1.RELEASE'
+        springsleuthVersion='1.1.3.RELEASE'
+        springCloudVersion='1.2.5.RELEASE'
+        springHystrixVersion='1.2.6.RELEASE'
+        springConfigVersion='1.2.3.RELEASE'
+        turbineVersion='1.0.7.RELEASE'
+        zipkinVersion='1.20.1'
+        swaggerVersion='2.6.1'
+	}
+	repositories {
+		mavenCentral()
+	}
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'inventory-composite-service'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	 maven {
+        url 'http://maven.springframework.org/release'
+    }
+}
+
+dependencies {
+   compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}"){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix:${springCloudVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka:${springCloudVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix:${springHystrixVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix-dashboard:${springHystrixVersion}")
+    compile("org.springframework.cloud:spring-cloud-netflix-turbine-amqp:${turbineVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-config:${springConfigVersion}")
+
+	         
+}
+
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
